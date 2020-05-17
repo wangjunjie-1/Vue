@@ -34,6 +34,16 @@
           </ul>
           <img src="images/line.png" class="switch_btn" alt="">
         </div>
+
+         <!-- 歌词容器 -->
+        <div class="lyric_wrapper" ref='lyric_wrapper'>
+        <h2>{{title}}</h2>
+        <div class="song_info">
+          <div >{{album}}</div>
+          <div >{{singer}}</div>
+        </div>
+        <div class="lyric_content" v-html="lyric"></div> 
+        </div>
         <!-- 歌曲信息容器 -->
         <div class="player_con" :class="{playing:isPlay}">
           <img src="images/player_bar.png" class="play_bar" />
@@ -41,6 +51,7 @@
           <img src="images/disc.png" class="disc autoRotate" />
           <img :src="coverUrl==''?'./images/cover.png':coverUrl" class="cover autoRotate" />
         </div>
+
         <!-- 评论容器 -->
         <div class="comment_wrapper" ref='comment_wrapper'>
           <h5 class='title'>热门留言</h5>
@@ -98,7 +109,16 @@
         // 显示视频播放
         showVideo: false,
         // mv地址
-        mvUrl: ''
+        mvUrl: '',
+        //歌词
+        lyric:'',
+        //专辑名
+        album:'',
+        //歌手
+        singer:'',
+        //歌名
+        title:''
+        
       },
       // 方法
       methods: {
@@ -108,6 +128,7 @@
             return
           }
           axios.get('/search?keywords=' + this.query).then(response => {
+          	console.log(response.data);
             // 保存内容
             this.musicList = response.data.result.songs;
 
@@ -128,15 +149,43 @@
             // console.log(response)
             // 保存热门评论
             this.hotComments = response.data.hotComments
-
           })
-          // 获取歌曲封面
+          // 获取歌曲信息
           axios.get('/song/detail?ids=' + musicId).then(response => {
-            // console.log(response)
+             console.log(response.data)
             // 设置封面
             this.coverUrl = response.data.songs[0].al.picUrl
+            //设置专辑名字
+            this.album='专辑：'+response.data.songs[0].al.name
+            //设置歌手
+            this.singer='歌手：'+response.data.songs[0].ar[0].name;
+            //设置歌名
+            this.title=response.data.songs[0].name;
           })
-
+          //获取歌词
+           axios.get('/lyric?id=' + musicId).then(response => {
+             console.log(response.data.lrc.lyric)
+            var s=response.data.lrc.lyric;
+         	var flag=1;
+         	var s2='<div>';
+            for (var i =0; i < s.length-1; i++) {
+            	//console.log(s[i]);
+            	if(s[i]=='['){
+            		s2+="</div><br><br><div class='ex'>";	
+            		flag=0;
+            		continue;
+            	}
+            	if(s[i]==']'){
+            		flag=1
+            		continue;
+            	}
+            	if(flag==1)
+            		s2+=s[i];	
+            }
+            s2+='</div>'
+            console.log(s2);
+            this.lyric=s2;
+          })
         },
         // audio的play事件
         play() {
@@ -174,7 +223,6 @@
           this.showHistory = false;
         }
       },
-
     })
 
   </script>

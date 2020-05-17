@@ -25,6 +25,8 @@
     请求方法:get
     请求参数:id(mvid,为0表示没有mv)
     响应内容:mv的地址
+  6.歌词地址获取
+  	请求方法:
 */
 var app = new Vue({
   el: "#player",
@@ -52,7 +54,7 @@ var app = new Vue({
       var that = this;
       axios.get("https://autumnfish.cn/search?keywords=" + this.query).then(
         function(response) {
-          // console.log(response);
+          console.log(response);
           that.musicList = response.data.result.songs;
           console.log(response.data.result.songs);
         },

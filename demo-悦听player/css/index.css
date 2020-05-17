@@ -17,12 +17,12 @@ dd {
 }
 
 .play_wrap {
-  width: 800px;
+  width: 1200px;
   height: 544px;
   position: fixed;
   left: 50%;
   top: 50%;
-  margin-left: -400px;
+  margin-left: -600px;
   margin-top: -272px;
   /* background-color: #f9f9f9; */
 }
@@ -192,7 +192,7 @@ dd {
   height: 435px;
   list-style: none;
   position: absolute;
-  left: 600px;
+  left: 1000px;
   top: 0px;
   padding: 25px 10px;
 }
@@ -349,4 +349,36 @@ dd {
   margin-top: -273px;
   top: 50%;
   z-index: 995;
+}
+.lyric_wrapper{ 
+  width: 380px;
+  height: 435px;
+  list-style: none;
+  position: absolute;
+  left: 600px;
+  top: 0px;
+  padding: 25px 10px;
+}
+.lyric_wrapper{
+  margin:0 auto;
+}
+.lyric_wrapper .song_info{
+  padding-top:10px;
+  padding-bottom:20px;
+}
+.lyric_wrapper .song_info div{
+    margin-right:20px;
+    display:inline;
+}
+.lyric_wrapper .lyric_content{
+  overflow: auto;
+  height: 280px;
+
+}
+.lyric_wrapper .lyric_content::-webkit-scrollbar {
+  display: none;
+}
+
+.lyric_wrapper .lyric_content .ex:hover {
+  color:red;
 }
